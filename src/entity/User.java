@@ -33,5 +33,11 @@ public class User {
         return projects;
     }
 
+    public void setPasswordUser(String passwordUser) {
+        this.passwordUser = passwordUser;
+    }
 
+    public void setNameUser(String nameUser) {
+        this.nameUser = nameUser;
+    }
 }
