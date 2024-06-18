@@ -1,11 +1,12 @@
 package Project.entity;
 
 
+import java.util.List;
 
 public class User {
 
-    public enum Role{
-        ADMIN,USER
+    public enum Role {
+        ADMIN, USER
     }
 
     private Long id;
@@ -13,13 +14,15 @@ public class User {
     private String email;
     private String password;
     private Role role;
+    private List<Message> messages;
 
-    public User(Long id, String name, String email, String password, Role role) {
+    public User(Long id, String name, String email, String password, Role role, List<Message> messages) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.messages = messages;
     }
 
     public Long getId() {
@@ -60,5 +63,13 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
     }
 }
