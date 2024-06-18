@@ -4,11 +4,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Task {
-    public enum Priority{
-        LOW,MEDIUM,HARD
+    public enum Priority {
+        LOW, MEDIUM, HARD
     }
-    public enum TaskStatus{
-        NEW,IN_PROGRESS,CLOSED
+
+    public enum TaskStatus {
+        NEW, IN_PROGRESS, CLOSED
     }
 
     private Long id;
@@ -18,11 +19,11 @@ public class Task {
     private Priority priority;
     private LocalDate dueDate;
     private TaskStatus status;
-    private Long assignedTo;
+    private List<User> users;
     private Long createdBy;
     private List<Comment> comments;
 
-    public Task(Long id, Long projectId, String title, String description, Priority priority, LocalDate dueDate, TaskStatus status, Long assignedTo, Long createdBy, List<Comment> comments) {
+    public Task(Long id, Long projectId, String title, String description, Priority priority, LocalDate dueDate, TaskStatus status, List<User> users, Long createdBy, List<Comment> comments) {
         this.id = id;
         this.projectId = projectId;
         this.title = title;
@@ -30,11 +31,10 @@ public class Task {
         this.priority = priority;
         this.dueDate = dueDate;
         this.status = status;
-        this.assignedTo = assignedTo;
+        this.users = users;
         this.createdBy = createdBy;
         this.comments = comments;
     }
-
 
     public Long getId() {
         return id;
@@ -92,12 +92,12 @@ public class Task {
         this.status = status;
     }
 
-    public Long getAssignedTo() {
-        return assignedTo;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setAssignedTo(Long assignedTo) {
-        this.assignedTo = assignedTo;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     public Long getCreatedBy() {
