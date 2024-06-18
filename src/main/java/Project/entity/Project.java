@@ -11,8 +11,9 @@ public class Project {
     private LocalDate endDate;
     private Long createdBy;
     private List<Long> members;
+    private List<Long> tasks;
 
-    public Project(Long id, String title, String description, LocalDate startDate, LocalDate endDate, Long createdBy, List<Long> members) {
+    public Project(Long id, String title, String description, LocalDate startDate, LocalDate endDate, Long createdBy, List<Long> members, List<Long> tasks) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -20,6 +21,7 @@ public class Project {
         this.endDate = endDate;
         this.createdBy = createdBy;
         this.members = members;
+        this.tasks = tasks;
     }
 
     public Long getId() {
@@ -76,5 +78,13 @@ public class Project {
 
     public void setMembers(List<Long> members) {
         this.members = members;
+    }
+
+    public List<Long> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Long> tasks) {
+        this.tasks = tasks;
     }
 }

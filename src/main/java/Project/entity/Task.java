@@ -1,6 +1,7 @@
 package Project.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Task {
     public enum Priority{
@@ -19,8 +20,9 @@ public class Task {
     private TaskStatus status;
     private Long assignedTo;
     private Long createdBy;
+    private List<Comment> comments;
 
-    public Task(Long id, Long projectId, String title, String description, Priority priority, LocalDate dueDate, TaskStatus status, Long assignedTo, Long createdBy) {
+    public Task(Long id, Long projectId, String title, String description, Priority priority, LocalDate dueDate, TaskStatus status, Long assignedTo, Long createdBy, List<Comment> comments) {
         this.id = id;
         this.projectId = projectId;
         this.title = title;
@@ -30,7 +32,9 @@ public class Task {
         this.status = status;
         this.assignedTo = assignedTo;
         this.createdBy = createdBy;
+        this.comments = comments;
     }
+
 
     public Long getId() {
         return id;
@@ -102,5 +106,13 @@ public class Task {
 
     public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
