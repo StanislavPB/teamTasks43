@@ -25,6 +25,14 @@ public class User {
         this.messages = messages;
     }
 
+    public User(Long id, String name, String email, String password, List<Message> messages) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.messages = messages;
+    }
+
     public Long getId() {
         return id;
     }
