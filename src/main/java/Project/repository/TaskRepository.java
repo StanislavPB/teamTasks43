@@ -39,10 +39,15 @@ public class TaskRepository {
         return new ArrayList<>(tasks);
     }
 
-    public List<Task> findTasksByProject(Long projectId) {
-        return tasks.stream()
-                .filter(task -> task.getProjectId().equals(projectId))
-                .collect(Collectors.toList());
+    public List<Task> findTasksByProjectId(Long projectId) {
+        List<Task> result = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getProjectId().equals(projectId)) {
+                result.add(task);
+            }
+        }
+        return result;
     }
+
 }
 

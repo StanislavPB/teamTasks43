@@ -69,10 +69,10 @@ public class UserService {
         return task.getUsers();
     }
 
-    public List<Long> findAllUsersByProject(Long projectId) {
+    public List<User> getTeamMembers(Long projectId) {
         Project project = projectRepository.findByProjectId(projectId)
                 .orElseThrow(() -> new IllegalArgumentException("Проект не найден"));
-        return project.getMembers();
+        return project.getMembers(); // Предполагается, что getMembers() возвращает List<User>
     }
 
     public User authenticateUser(String email, String password) {

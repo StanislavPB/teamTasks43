@@ -1,5 +1,6 @@
 package Project.repository;
 import Project.entity.Project;
+import Project.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ public class ProjectRepository implements ProjectInterfaceRepository {
 
     @Override
     public List<Project> getAllProjects() {
-        return new ArrayList<>(projects);
+        return projects;
     }
 
     public List<Project> findProjectsByUserId(Long userId) {
@@ -60,7 +61,7 @@ public class ProjectRepository implements ProjectInterfaceRepository {
         }
         return result;
     }
-    public List<Long> findTeamMembersByProjectId(Long projectId) {
+    public List<User> findTeamMembersByProjectId(Long projectId) {
         // реализация поиска участников команды проекта по ID проекта
         for (Project project : projects) {
             if (project.getId().equals(projectId)) {

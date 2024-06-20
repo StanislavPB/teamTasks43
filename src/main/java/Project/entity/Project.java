@@ -10,10 +10,10 @@ public class Project {
     private LocalDate startDate;
     private LocalDate endDate;
     private Long createdBy;
-    private List<Long> members;
-    private List<Long> tasks;
+    private List<User> members;
+    private List<Task> tasks;
 
-    public Project(Long id, String title, String description, LocalDate startDate, LocalDate endDate, Long createdBy, List<Long> members, List<Long> tasks) {
+    public Project(Long id, String title, String description, LocalDate startDate, LocalDate endDate, Long createdBy, List<User> members, List<Task> tasks) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -25,6 +25,9 @@ public class Project {
     }
 
     public Project(Long id, String title, String description) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
     }
 
     public Long getId() {
@@ -75,19 +78,33 @@ public class Project {
         this.createdBy = createdBy;
     }
 
-    public List<Long> getMembers() {
+    public List<User> getMembers() {
         return members;
     }
 
-    public void setMembers(List<Long> members) {
+    public void setMembers(List<User> members) {
         this.members = members;
     }
 
-    public List<Long> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<Long> tasks) {
+    public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", createdBy=" + createdBy +
+                ", members=" + members +
+                ", tasks=" + tasks +
+                '}';
     }
 }

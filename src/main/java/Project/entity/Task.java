@@ -115,4 +115,20 @@ public class Task {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", projectId=" + projectId +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", priority=" + priority +
+                ", dueDate=" + dueDate +
+                ", status=" + status +
+                ", users=" + users +
+                ", createdBy=" + createdBy +
+                ", comments=" + comments +
+                '}';
+    }
 }

@@ -4,12 +4,13 @@ import Project.Service.*;
 import Project.entity.*;
 import Project.repository.*;
 
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
+
+import static Project.entity.Task.Priority.LOW;
+import static Project.entity.Task.TaskStatus.IN_PROGRESS;
 
 public class Main {
     private static UserService userService;
@@ -58,16 +59,33 @@ public class Main {
 
         User user1 = new User(null, "User One", "user1@example.com", "password", User.Role.USER, new ArrayList<>());
         userService.createUser(user1);
+        User user2 = new User(null, "User Two", "user2@example.com", "password", User.Role.USER, new ArrayList<>());
+        userService.createUser(user2);
+        User user3 = new User(null, "User Three", "user3@example.com", "password", User.Role.USER, new ArrayList<>());
+        userService.createUser(user3);
+        User user4 = new User(null, "User Four", "user4@example.com", "password", User.Role.USER, new ArrayList<>());
+        userService.createUser(user4);
+        User user5 = new User(null, "User Five", "user5@example.com", "password", User.Role.USER, new ArrayList<>());
+        userService.createUser(user5);
 
-        Project project1 = new Project(null, "название проекта", "Описание");
+        Project project1 = new Project(null, "Project1", "Описание",LocalDate.of(2024,06,20),LocalDate.of(2024,06,21), 1L,Arrays.asList(admin,user2,user3,user4), new ArrayList<>());
         projectService.addProject(project1);
+        Project project2 = new Project(null, "Project2", "Описание",LocalDate.of(2024,06,20),LocalDate.of(2024,06,21), 1L,Arrays.asList(user4), new ArrayList<>());
+        projectService.addProject(project2);
+        Project project3 = new Project(null, "Project3", "Описание",LocalDate.of(2024,06,20),LocalDate.of(2024,06,21), 1L,Arrays.asList(user2), new ArrayList<>());
+        projectService.addProject(project3);
+
+        Task task1=new Task(null,1L,"Task1","desk",LOW,LocalDate.now(), IN_PROGRESS,Arrays.asList(user2),1L,new ArrayList<>());
+        Task task2=new Task(null,1L,"Task2","desk2",LOW,LocalDate.now(), IN_PROGRESS,Arrays.asList(user3),3L,new ArrayList<>());
+
+
     }
 
     private static void userMenu(Scanner scanner, User user) {
         while (true) {
             System.out.println("User Menu:");
             System.out.println("1. View Projects");
-            System.out.println("2. View Tasks");
+            System.out.println("2. View Tasks By Project");
             System.out.println("3. Create Task");
             System.out.println("4. Update Task Status");
             System.out.println("5. Update Task Priority");
@@ -84,10 +102,10 @@ public class Main {
 
             switch (option) {
                 case 1:
-                    viewProjects(user);
+                    viewProjects();
                     break;
                 case 2:
-                    viewTasks(user);
+                    viewTasksByProjectId(scanner);
                     break;
                 case 3:
                     createTask(scanner, user);
@@ -113,9 +131,9 @@ public class Main {
                 case 10:
                     sendMessage(scanner, user);
                     break;
-//                case 11:
-//                    writeToAdmin(scanner, user);
-//                    break;
+                case 11:
+                    viewAllUsers();
+                    break;
                 case 12:
                     return; // Logout
                 default:
@@ -124,11 +142,15 @@ public class Main {
         }
     }
 
+    private static void viewTasksByProject(User user) {
+
+    }
+
     private static void adminMenu(Scanner scanner, User admin) {
         while (true) {
             System.out.println("Admin Menu:");
             System.out.println("1. View Projects");
-            System.out.println("2. View Tasks");
+            System.out.println("2. View Tasks By Project");
             System.out.println("3. Create Task");
             System.out.println("4. Update Task Status");
             System.out.println("5. Update Task Priority");
@@ -137,7 +159,7 @@ public class Main {
             System.out.println("8. Add Comment");
             System.out.println("9. View Messages");
             System.out.println("10. Send Message");
-//            System.out.println("11. Write to Admin");
+            System.out.println("11. All Users");
             System.out.println("12. Create User");
             System.out.println("13. Delete User");
             System.out.println("14. Create Project");
@@ -149,10 +171,10 @@ public class Main {
 
             switch (option) {
                 case 1:
-                    viewProjects(admin);
+                    viewProjects();
                     break;
                 case 2:
-                    viewTasks(admin);
+                    viewTasksByProjectId(scanner);
                     break;
                 case 3:
                     createTask(scanner, admin);
@@ -178,9 +200,9 @@ public class Main {
                 case 10:
                     sendMessage(scanner, admin);
                     break;
-//                case 11:
-//                    writeToAdmin(scanner, admin);
-//                    break;
+                case 11:
+                    viewAllUsers();
+                    break;
                 case 12:
                     createUser(scanner);
                     break;
@@ -201,19 +223,40 @@ public class Main {
         }
     }
 
-    private static void viewProjects(User user) {
-        List<Project> projects = projectService.getProjectsByUser(user.getId());
-        for (Project project : projects) {
-            System.out.println(project.getId());
+    private static void viewProjects() {
+        List<Project> projects = projectService.getAllProjects();
+        if (projects.isEmpty()) {
+            System.out.println("No projects found.");
+        } else {
+            System.out.println("All projects:");
+            for (Project project : projects) {
+                System.out.println(project); // Вывод информации о проекте
+            }
         }
     }
 
-    private static void viewTasks(User user) {
-        List<Task> tasks = taskService.findTasksByUser(user.getId());
-        for (Task task : tasks) {
-            System.out.println(task.getTitle());
+    private static void viewTasksByProjectId(Scanner scanner) {
+        System.out.println("Enter project ID: ");
+        Long projectId = Long.parseLong(scanner.nextLine());
+
+        List<Task> tasks = taskService.getTasksByProjectId(projectId);
+
+        if (tasks.isEmpty()) {
+            System.out.println("No tasks found for project with ID " + projectId);
+        } else {
+            System.out.println("Tasks for project with ID " + projectId + ":");
+            for (Task task : tasks) {
+                System.out.println(task); // Используется toString из класса Task для вывода полной информации
+            }
         }
     }
+
+//    private static void viewUserTasks(Task task) {
+//        List<Task> tasks = userService.findAllUsersByTask(user.getId());
+//        for (Task task : tasks) {
+//            System.out.println(task);
+//        }
+//    }
 
     private static void createTask(Scanner scanner, User user) {
         System.out.println("Enter task title: ");
@@ -253,9 +296,9 @@ public class Main {
     private static void viewProjectTeam(Scanner scanner, User user) {
         System.out.println("Enter project ID: ");
         Long projectId = Long.parseLong(scanner.nextLine());
-        List<Long> teamMembers = projectService.getTeamMembers(projectId);
-        for (Long teamMember : teamMembers) {
-            System.out.println(teamMember.getClass());
+        List<User> teamMembers = projectService.getTeamMembers(projectId);
+        for (User teamMember : teamMembers) {
+            System.out.println(teamMember); // Пример вывода имени пользователя
         }
     }
 
@@ -313,6 +356,17 @@ public class Main {
 //            System.out.println("Admin not found.");
 //        }
 //    }
+private static void viewAllUsers() {
+    List<User> users = userService.findAllUsers();
+    if (users.isEmpty()) {
+        System.out.println("No users found.");
+    } else {
+        System.out.println("All users:");
+        for (User user : users) {
+            System.out.println(user); // Вывод информации о пользователе
+        }
+    }
+}
 
     private static void createUser(Scanner scanner) {
         System.out.println("Enter user name: ");
@@ -339,7 +393,10 @@ public class Main {
     private static void createProject(Scanner scanner) {
         System.out.println("Enter project name: ");
         String name = scanner.nextLine();
-
+        System.out.println("Enter project name: ");
+        String title = scanner.nextLine();
+        System.out.println("Enter project name: ");
+        String description = scanner.nextLine();
         Project project = new Project(null,"название","описание");
         projectService.addProject(project);
         System.out.println("Project created successfully.");
