@@ -80,4 +80,16 @@ public class User {
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", messages=" + messages +
+                '}';
+    }
 }

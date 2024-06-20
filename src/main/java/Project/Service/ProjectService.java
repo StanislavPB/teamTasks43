@@ -1,13 +1,17 @@
 package Project.Service;
 
 import Project.entity.Project;
+import Project.entity.Task;
+import Project.entity.User;
 import Project.repository.ProjectRepository;
+import Project.repository.TaskRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 public class ProjectService {
     private ProjectRepository projectRepository;
+    private TaskRepository taskRepository;
 
     public ProjectService(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
@@ -36,8 +40,11 @@ public class ProjectService {
     public List<Project> getProjectsByUser(Long userId) {
         return projectRepository.findProjectsByUserId(userId);
     }
-    public List<Long> getTeamMembers(Long projectId) {
+    public List<User> getTeamMembers(Long projectId) {
         return projectRepository.findTeamMembersByProjectId(projectId);
+    }
+    public List<Task> getTasksByProjectId(Long projectId) {
+        return taskRepository.findTasksByProjectId(projectId);
     }
     }
 

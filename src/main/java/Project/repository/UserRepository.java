@@ -13,7 +13,7 @@ public class UserRepository implements UserRepositoryInterface{
 
     @Override
     public User save(User user) {
-        if(user.getId() == null) {
+        if (user.getId() == null) {
             user.setId(idCounter++);
         }
         users.add(user);

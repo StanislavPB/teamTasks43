@@ -35,8 +35,8 @@ public class TaskService {
         return taskRepository.findAllTasks();
     }
 
-    public List<Task> findTasksByProject(Long projectId) {
-        return taskRepository.findTasksByProject(projectId);
+    public List<Task> getTasksByProjectId(Long projectId) {
+        return taskRepository.findTasksByProjectId(projectId);
     }
 
     public Task updateTaskPriority(Long taskId, Task.Priority priority) {
