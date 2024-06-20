@@ -13,42 +13,28 @@ public class UserRepository implements UserRepositoryInterface{
 
     @Override
     public User save(User user) {
-        if(user.getId() != null){
-            for(User u:users){
-                if(u.getId().equals(user.getId())){
-                    throw new IllegalArgumentException("Идентификатор пользователя уже существует");
-                }
-            }
-        }else {
+        if(user.getId() == null) {
             user.setId(idCounter++);
-        }
-        for(User u:users){
-            if(u.getEmail().equals(user.getEmail())){
-                throw new IllegalArgumentException("Email уже используеться");
-            }
-        }
-        if (user.getRole()==null){
-            user.setRole(User.Role.USER);
         }
         users.add(user);
         return user;
     }
 
     @Override
-    public Optional<User> findById(Long id) {
+    public Optional<User> findByUserId(Long id) {
         return users.stream()
                 .filter(user->user.getId().equals(id))
                 .findFirst();
     }
 
     @Override
-    public List<User> findAll() {
+    public List<User> findAllUsers() {
         return users.stream().collect(Collectors.toList());
     }
 
     @Override
-    public User update(User user) {
-       Optional<User> existingUser = findById(user.getId());
+    public User updateUser(User user) {
+       Optional<User> existingUser = findByUserId(user.getId());
        if(existingUser.isPresent()){
            users.remove(existingUser.get());
            users.add(user);
@@ -59,7 +45,7 @@ public class UserRepository implements UserRepositoryInterface{
     }
 
     @Override
-    public boolean delete(Long id) {
+    public boolean deleteUser(Long id) {
         Optional<User> userToDelete = users.stream()
                 .filter(user->user.getId().equals(id))
                 .findFirst();
@@ -70,5 +56,16 @@ public class UserRepository implements UserRepositoryInterface{
                 return false;
             }
         }
+    public Optional<User> findByEmail(String email) {
+        return users.stream()
+                .filter(user -> user.getEmail().equals(email))
+                .findFirst();
     }
+
+    public List<User> findByRole(User.Role role) {
+        return users.stream()
+                .filter(user -> user.getRole() == role)
+                .collect(Collectors.toList());
+    }
+}
 
