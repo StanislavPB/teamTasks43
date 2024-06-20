@@ -1,6 +1,3 @@
-package Project.repository;
-
-import Project.entity.Comment;
 
 import java.util.ArrayList;
 import java.util.List;
