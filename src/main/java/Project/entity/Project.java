@@ -24,6 +24,9 @@ public class Project {
         this.tasks = tasks;
     }
 
+    public Project(Long id, String title, String description) {
+    }
+
     public Long getId() {
         return id;
     }

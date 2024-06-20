@@ -1,34 +1,40 @@
-package Project.repository;
 
-import Project.entity.Comment;
-
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class CommentRepository {
+    private List<Comment> comments = new ArrayList<>();
+    private Long counter = 0L;
 
-    private final Map<Long, Comment> commentMap = new HashMap<>();
-    private long idCounter = 0;
-
-    public synchronized Long generateId() {
-        return ++idCounter;
+    public Comment addComment(Comment comment) {
+        comment.setId(++counter);
+        comments.add(comment);
+        return comment;
     }
 
-    public void addComment(Comment comment) {
-        commentMap.put(comment.getId(), comment);
+    public List<Comment> findAllCommentsByTaskId(Long taskId) {
+        return comments.stream()
+                .filter(comment -> comment.getTaskId().equals(taskId))
+                .collect(Collectors.toList());
     }
 
-    public Comment findByCommentId(Long id) {
-        return commentMap.get(id);
+    public Optional<Comment> findCommentById(Long commentId) {
+        return comments.stream()
+                .filter(comment -> comment.getId().equals(commentId))
+                .findFirst();
     }
 
-    public void updateComment(Comment comment) {
-        commentMap.put(comment.getId(), comment);
+    public Comment updateComment(Comment updatedComment) {
+        Comment comment = findCommentById(updatedComment.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Comment not found"));
+        comment.setContent(updatedComment.getContent());
+        comment.setTimestamp(updatedComment.getTimestamp());
+        return comment;
     }
 
-    public void deleteComment(Long id) {
-        commentMap.remove(id);
+    public boolean removeComment(Comment comment) {
+        return comments.remove(comment);
     }
-    }
-
+}

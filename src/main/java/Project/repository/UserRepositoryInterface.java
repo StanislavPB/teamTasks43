@@ -6,8 +6,8 @@ import java.util.Optional;
 
 public interface UserRepositoryInterface {
         User save(User user);
-        Optional<User> findById(Long id);
-        List<User> findAll();
-        User update(User user);
-        boolean delete(Long id);
+        Optional<User> findByUserId(Long id);
+        List<User> findAllUsers();
+        User updateUser(User user);
+        boolean deleteUser(Long id);
 }
